@@ -5,7 +5,7 @@ fileURL <- 'https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%2
 tidyZIP <- "./getdata-projectfiles-UCI-HAR-Dataset.zip"
 dirFile <- "./UCI HAR Dataset"
 
-tidyFile <- "./tidy-UCI-HAR-dataset.txt"
+tidyDataFile <- "./tidy-UCI-HAR-dataset.txt"
 tidytxt <- "./tidy-UCI-HAR-dataset-AVG.txt"
 #If the data does not exist download the file
 if (file.exists(tidyZIP) == FALSE) {
@@ -52,9 +52,7 @@ names(x) <- gsub("\\(|\\)", "", (features[index_features, 2]))
 activities <- read.table("./UCI HAR Dataset/activity_labels.txt")
 #Dislay activities
 activities
-activities[, 2] = gsub("_", "", tolower(as.character(activities[, 2])))
-y[,1] = activities[y[,1], 2]
-names(y) <- c("activity")
+
 
 ## 4. Appropriately labels the data set with descriptive activity names:
 
@@ -65,6 +63,8 @@ y[, 1] = activities[y[, 1], 2]
 names(y) <- "Activity"
 names(s) <- "Subject"
 tidyDataSet <- cbind(s, y, x)
+##5. Creates a 2nd, independent tidy data set with the average of each variable for each activity and each subject:
+
 p <- tidyDataSet[, 3:dim(tidyDataSet)[2]] 
 tidy1 <- aggregate(p,list(tidyDataSet$Subject, tidyDataSet$Activity), mean)
 names(tidy1)[1] <- "Subject"
